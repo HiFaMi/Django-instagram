@@ -1,0 +1,11 @@
+{% extends 'posts/basic.html' %}
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <button type="submit">로그인</button>
+</form>
+
+{% endblock %}
