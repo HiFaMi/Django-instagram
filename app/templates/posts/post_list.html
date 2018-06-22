@@ -1,5 +1,7 @@
 {% extends 'posts/basic.html' %}
 {% block content %}
     <h1>post list</h1>
-
+    {% for post in posts %}
+        <div>{{post}}</div>
+    {% endfor %}
 {% endblock %}
