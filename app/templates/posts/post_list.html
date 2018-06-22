@@ -2,6 +2,9 @@
 {% block content %}
     <h1>post list</h1>
     {% for post in posts %}
-        <div>{{post}}</div>
+        <div>
+            <div>{{post.author.username}}</div>
+            <img width="100%" src="{{post.photo.url}}"></img>
+        </div>
     {% endfor %}
 {% endblock %}
