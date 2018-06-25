@@ -1,9 +1,20 @@
 {% extends 'posts/basic.html' %}
 {% block content %}
+    {% if errors %}
+
+    <ui>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ui>
+    {% endif %}
     <form action="" method="POST">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="username">
-        <input type="password" name="password" placeholder="password">
+        <div><label>Username<input type="text" name="username" value="{{username}}"></label></div>
+        <div><label>Email<input type="email" name="email" value="{{email}}"></label></div>
+        <div><label>Password<input type="password" name="password" ></label></div>
+        <div><label>Password Check<input type="password" name="password_check" ></label></div>
         <button type="submit">회원가입</button>
     </form>
+
 {% endblock %}
