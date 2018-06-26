@@ -23,7 +23,7 @@ from posts.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
-    path('', index),
+    path('', index, name='index'),
     path('members/', include('members.urls')),
 
     # path('media/<str:path>', 특정 view_function )
