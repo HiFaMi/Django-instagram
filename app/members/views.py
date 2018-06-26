@@ -47,21 +47,12 @@ def signup_view(request):
             user = form.signup()
             login(request, user)
             return redirect('posts:post-list')
-
-        else:
-            # ['{}: {}'.format(key, value) for key, value in form.errors.items()])
-            # return HttpResponse(result)
-            context = {
-                'form': form,
-            }
-
-            return render(request, 'members/signup.html', context)
     else:
         form = SignupForm()
 
-        context = {
-            'form': form,
-        }
+    context = {
+        'form': form,
+    }
 
     return render(request, 'members/signup.html', context)
 
