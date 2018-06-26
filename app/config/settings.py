@@ -27,6 +27,7 @@ SECRET_KEY = '%si*zr&*vgt(2%z514ubv$d3p&f(=-w8gx=ib-ukm8=xkaqwc0'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'members.User'
 
 
 
@@ -34,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'posts.apps.PostsConfig',
+    'members.apps.MembersConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
