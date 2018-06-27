@@ -12,13 +12,20 @@
 <body>
     <h1><a href="{% url 'index' %}">Instagram</a></h1>
     <div>
-        {{user}}로 로그인중<br>
+        <a href="{% url 'posts:post-user-detail' %}">{{user}}로 로그인중</a>
         <a href="{% url 'members:signup' %}">회원가입</a>
         </form>
         {% if user.is_authenticated %}
             <form action="{% url 'members:logout' %}" method="POST">
                 {% csrf_token %}
                 <button type="submit">로그아웃하기</button>
+            </form>
+            <form action="{% url 'posts:withdraw' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">회원탈퇴</button>
+            </form>
+            <form action="{% url 'posts:post-create' %}">
+                <button>사진 올리기</button>
             </form>
         {% else %}
             <form action="{% url 'members:login' %}">

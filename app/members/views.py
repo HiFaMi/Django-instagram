@@ -35,7 +35,7 @@ def logout_view(request):
     if request.method == 'POST':
 
         logout(request)
-        return redirect(index)
+        return redirect('index')
 
 
 def signup_view(request):

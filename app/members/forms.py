@@ -1,16 +1,23 @@
 from django import forms
-from django.contrib.auth.models import User
+
 from django.core.exceptions import ValidationError
+
+from members.models import User
 
 
 class SignupForm(forms.Form):
+    CHOICE = (
+        ('m', '남성'),
+        ('f', '여성'),
+        ('x', '선택안함'),
+    )
     username = forms.CharField(
         label='아이디',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
             }
-        )
+        ),
     )
     email = forms.EmailField(
         label='이메일',
@@ -18,7 +25,7 @@ class SignupForm(forms.Form):
             attrs={
                 'class': 'form-control',
             }
-        )
+        ),
     )
     password = forms.CharField(
         label='비밀번호',
@@ -33,6 +40,46 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
+            }
+        ),
+    )
+
+    img_profile = forms.ImageField(
+        label='프로필 사진',
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        ),
+    )
+
+    introduce = forms.CharField(
+        label='소개',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control'
+            }
+        ),
+    )
+
+    gender = forms.CharField(
+        label='성별',
+        widget=forms.Select(
+            choices=CHOICE,
+            attrs={
+                'class': 'form-control'
+            }
+        ),
+    )
+
+    site = forms.ChoiceField(
+        label='블로그',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control'
             }
         ),
     )
@@ -61,11 +108,19 @@ class SignupForm(forms.Form):
         username = self.cleaned_data['username']
         email = self.cleaned_data['email']
         password = self.cleaned_data['password']
+        img_profile = self.cleaned_data['img_profile']
+        introduce = self.cleaned_data['introduce']
+        gender = self.cleaned_data['gender']
+        site = self.cleaned_data['site']
 
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password,
+            img_profile=img_profile,
+            site=site,
+            introduce=introduce,
+            gender=gender,
         )
 
         return user
