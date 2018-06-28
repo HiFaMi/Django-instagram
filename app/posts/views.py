@@ -45,9 +45,8 @@ def post_create(request):
 
         if form.is_valid():
 
-            form.create(request.user)
-
-            return post_detail(request, request.user.id)
+            post = form.create(request.user)
+            return post_detail(request, post.id)
 
     else:
         form = PostForm()
@@ -66,7 +65,7 @@ def post_delete(request, pk):
         if request.user == post.author:
             post.delete()
 
-    return redirect('index')
+    return redirect('posts:post-user-detail')
 
 
 def withdraw(request):

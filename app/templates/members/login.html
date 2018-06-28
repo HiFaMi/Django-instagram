@@ -1,11 +1,13 @@
 {% extends 'posts/basic.html' %}
 {% block content %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <button type="submit">로그인</button>
-</form>
+<div class="form-group">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="text" class="form-control" name="username" placeholder="Username">
+        <input type="password" class="form-control" name="password" placeholder="Password">
+        <button type="submit" class="btn btn-primary btn-sm">로그인</button>
+    </form>
+</div>
 
 {% endblock %}

@@ -5,6 +5,10 @@
     {% if post.author == user %}
     <div>
         <img src="{{post.photo.url}}">
+        <form action="{% url 'posts:post-delete' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-sm">지우기</button>
+        </form>
     </div>
     {% endif %}
 {% endfor %}
