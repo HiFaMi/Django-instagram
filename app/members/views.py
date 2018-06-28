@@ -15,6 +15,7 @@ User = get_user_model()
 def login_view(request):
 
     if request.method == 'POST':
+
         username = request.POST['username']
         password = request.POST['password']
 
@@ -22,6 +23,9 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
+            if request.GET.get('next'):
+                return redirect(request.GET['next'])
+
             return redirect('posts:post-list')
         else:
             return redirect('members:login')
@@ -41,7 +45,7 @@ def logout_view(request):
 def signup_view(request):
 
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST, request.FILES)
         # form에 들어있는 데이터가 유효한지 검사
         if form.is_valid():
             user = form.signup()

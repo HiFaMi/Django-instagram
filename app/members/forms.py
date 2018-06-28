@@ -6,11 +6,7 @@ from members.models import User
 
 
 class SignupForm(forms.Form):
-    CHOICE = (
-        ('m', '남성'),
-        ('f', '여성'),
-        ('x', '선택안함'),
-    )
+
     username = forms.CharField(
         label='아이디',
         widget=forms.TextInput(
@@ -44,6 +40,16 @@ class SignupForm(forms.Form):
         ),
     )
 
+    gender = forms.CharField(
+        label='성별',
+        widget=forms.Select(
+            choices=User.CHOICES_GENDER,
+            attrs={
+                'class': 'form-control'
+            }
+        ),
+    )
+
     img_profile = forms.ImageField(
         label='프로필 사진',
         required=False,
@@ -58,16 +64,6 @@ class SignupForm(forms.Form):
         label='소개',
         required=False,
         widget=forms.TextInput(
-            attrs={
-                'class': 'form-control'
-            }
-        ),
-    )
-
-    gender = forms.CharField(
-        label='성별',
-        widget=forms.Select(
-            choices=CHOICE,
             attrs={
                 'class': 'form-control'
             }
@@ -105,22 +101,45 @@ class SignupForm(forms.Form):
         return self.cleaned_data
 
     def signup(self):
-        username = self.cleaned_data['username']
-        email = self.cleaned_data['email']
-        password = self.cleaned_data['password']
-        img_profile = self.cleaned_data['img_profile']
-        introduce = self.cleaned_data['introduce']
-        gender = self.cleaned_data['gender']
-        site = self.cleaned_data['site']
+        fields = [
+            'username',
+            'email',
+            'password',
+            'gender',
+            'img_profile',
+            'introduce',
+            'site'
+        ]
+        # create_user_dict = {}
+        #
+        # for key, value in self.cleaned_data.items():
+        #     if key in fields:
+        #         create_user_dict[key] = value
 
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            img_profile=img_profile,
-            site=site,
-            introduce=introduce,
-            gender=gender,
-        )
+        # create_user_dict = {key: value for key, value in self.cleaned_data.items() if key in fields}
+
+        def in_fields(item):
+            return item[0] in fields
+        create_user_dict =dict(filter(in_fields, self.cleaned_data.items()))
+
+        user = User.objects.create_user(**create_user_dict)
+
+        # username = self.cleaned_data['username']
+        # email = self.cleaned_data['email']
+        # password = self.cleaned_data['password']
+        # img_profile = self.cleaned_data['img_profile']
+        # introduce = self.cleaned_data['introduce']
+        # gender = self.cleaned_data['gender']
+        # site = self.cleaned_data['site']
+        #
+        # user = User.objects.create_user(
+        #     username=username,
+        #     email=email,
+        #     password=password,
+        #     img_profile=img_profile,
+        #     site=site,
+        #     introduce=introduce,
+        #     gender=gender,
+        # )
 
         return user

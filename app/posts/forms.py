@@ -1,17 +1,34 @@
 from django import forms
+from django.forms import ModelForm
 from django.http import request
 
 from posts.models import Post
 
 
+class PostModelForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ['photo', 'content']
+
+
 class PostForm(forms.Form):
     img = forms.FileField(
         label='사진',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
     )
 
     description = forms.CharField(
         label='설명',
-        widget=forms.Textarea(),
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control'
+            }
+        ),
         required=False,
     )
 

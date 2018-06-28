@@ -16,7 +16,19 @@
 
 
         {% if user.is_authenticated %}
-        <a href="{% url 'posts:post-user-detail' %}">{{user}}로 로그인중</a>
+
+        <div>
+            {% if user.img_profile %}
+            <img class="rounded-circle mr-1"
+                 width="30px"
+                 src="{{user.img_profile.url}}">
+            {% else %}
+            {% load static %}
+            <img class="rounded-circle mr-1"
+                 width="30px"
+                 src="{% static '/images/blank_user.png' %}">
+            {% endif %}
+            <a href="{% url 'posts:post-user-detail' %}">{{user}}로 로그인중</a></div>
         <div>
             <form action="{% url 'members:logout' %}" method="POST">
                 {% csrf_token %}
@@ -28,9 +40,7 @@
                 <button class="btn btn-primary btn-sm" type="submit">회원탈퇴</button>
             </form>
 
-            <form action="{% url 'posts:post-create' %}">
-                <button class="btn btn-primary btn-sm">사진 올리기</button>
-            </form>
+
             <form action="{% url 'posts:post-user-detail'%}">
                 <button class="btn btn-primary btn-sm">내 사진보기</button>
             </form>
@@ -47,6 +57,12 @@
             </form>
         </div>
         {% endif %}
+        <div>
+            <form action="{% url 'posts:post-create' %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-primary btn-sm">사진 올리기</button>
+            </form>
+        </div>
     </div>
     {% block content%}
     {% endblock %}

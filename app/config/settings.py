@@ -16,6 +16,11 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -27,7 +32,10 @@ SECRET_KEY = '%si*zr&*vgt(2%z514ubv$d3p&f(=-w8gx=ib-ukm8=xkaqwc0'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+#Auth
 AUTH_USER_MODEL = 'members.User'
+LOGIN_URL = 'members:login'
 
 
 
