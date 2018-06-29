@@ -5,7 +5,6 @@
 <div class="card bg-light mb-3" style="max-width: 100%">
     {% for post in posts %}
     <div class="card-header">
-
         <div class="float-left">
 
                 {% if post.author.img_profile %}
@@ -18,7 +17,11 @@
                  width="30px"
                  src="{% static '/images/blank_user.png' %}">
                 {% endif %}
-            {{post.author.username}}
+            <span>{{ post.author.username }}</span>
+            <form action="" method="POST" style="display: inline-block">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-primary btn-sm">+ Follow</button>
+            </form>
         </div>
         <div class="float-right">
             <form action="{% url 'posts:post-delete' post.id%}" method="POST">
@@ -42,7 +45,17 @@
         {% endif %}
         <p class="card-text">{{post.content}}</p>
         <div>
-            <form action="" method="">
+
+            {% for comment in comments %}
+                {% if post.id == comment.post.id %}
+                <p>{{ comment.user.username }} -- {{ comment.user_comment }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div>
+
+            <form action="{% url 'posts:post-comment' post.pk %}" method="POST">
+                {% csrf_token %}
                 {% for field in form %}
 
                     <label style="display: block;" for="{{ field.id_for_label }}">{{ field.label }}</label>

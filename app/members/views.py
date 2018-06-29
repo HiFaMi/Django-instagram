@@ -119,3 +119,5 @@ def signup_view_back(request):
         return render(request, 'members/signup.html', context)
     return render(request, 'members/signup.html')
 
+def follow_toggle(request):
+    pass

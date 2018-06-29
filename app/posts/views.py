@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from members.models import User
-from posts.models import Post
+from posts.models import Post, Comment
 
 from posts.forms import PostForm, PostModelForm, CommentModelForm
 
@@ -17,17 +17,14 @@ def index(request):
 
 
 def post_list(request):
-    if request.method == 'POST':
-        form = CommentModelForm(request.POST)
-
-    else:
-        form = CommentModelForm()
+    form = CommentModelForm()
 
     posts = Post.objects.all()
-
+    comments = Comment.objects.all()
     context = {
         'posts': posts,
         'form': form,
+        'comments': comments,
     }
     return render(request, 'posts/post_list.html', context)
 
@@ -118,22 +115,17 @@ def withdraw(request):
     return redirect('index')
 
 
-def comment_view(request):
+@login_required
+def post_comment(request, pk):
     if request.method == 'POST':
         form = CommentModelForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
+            comment.post = Post.objects.get(id=pk)
             comment.save()
         return redirect('posts:post-list')
-    else:
-        form = CommentModelForm()
 
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'posts/comment.html', context)
 
 
 
