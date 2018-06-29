@@ -1,0 +1,9 @@
+{% extends 'posts/basic.html' %}
+{%  block content %}
+    <div>
+    {%  for field in form %}
+        <label for="{{ field.id_for_label }}">{{field.label}}</label>
+        {{ field }}
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from members.models import User
+
 
 class Post(models.Model):
     author = models.ForeignKey(
@@ -10,3 +12,23 @@ class Post(models.Model):
     photo = models.ImageField(upload_to='post', blank=True)
     content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+
+    user_comment = models.CharField(
+        max_length=200,
+        verbose_name='댓글')
+    create_at = models.DateTimeField(auto_now_add=True)
+
+
+
