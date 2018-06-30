@@ -58,7 +58,7 @@
         </div>
         {% endif %}
         <div>
-            <form action="{% url 'posts:post-create' %}" method="POST">
+            <form action="{% url 'posts:post-create' %}">
                 {% csrf_token %}
                 <button class="btn btn-primary btn-sm">사진 올리기</button>
             </form>

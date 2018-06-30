@@ -53,6 +53,7 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            return redirect('posts:post-list')
 
     else:
         form = PostModelForm()

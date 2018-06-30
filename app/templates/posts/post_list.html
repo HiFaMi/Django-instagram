@@ -1,9 +1,9 @@
 {% extends 'posts/basic.html' %}
 {% block content %}
     <h1>post list</h1>
+{% for post in posts %}
+<div class="card bg-light mb-4 mx-auto" style="max-width: 80%">
 
-<div class="card bg-light mb-3" style="max-width: 100%">
-    {% for post in posts %}
     <div class="card-header">
         <div class="float-left">
 
@@ -18,10 +18,19 @@
                  src="{% static '/images/blank_user.png' %}">
                 {% endif %}
             <span>{{ post.author.username }}</span>
-            <form action="" method="POST" style="display: inline-block">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-primary btn-sm">+ Follow</button>
-            </form>
+            {% if user != post.author %}
+                {% if post.author not in user.following%}
+                <form action="{% url 'members:follow' post.id %}" method="POST" style="display: inline-block">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm">+ Follow</button>
+                </form>
+                {% else %}
+                <form action="{% url 'members:follow' post.id %}" method="POST" style="display: inline-block">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm">- UnFollow</button>
+                </form>
+                {% endif %}
+            {% endif %}
         </div>
         <div class="float-right">
             <form action="{% url 'posts:post-delete' post.id%}" method="POST">
@@ -69,8 +78,8 @@
         </div>
 
     </div>
-        {% endfor %}
-</div>
 
+</div>
+{% endfor %}
 
 {% endblock %}

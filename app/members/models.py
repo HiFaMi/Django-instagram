@@ -28,13 +28,20 @@ class User(AbstractUser):
 
     def follow(self, another_user):
         if not self.relations_by_from_user.filter(
-                to_user=another_user,
-                relation_type=Relation.RELATION_TYPE_FOLLOW,
-        ).exists():
+                to_user=another_user).exists():
             return self.relations_by_from_user.create(
                 to_user=another_user,
                 relation_type=Relation.RELATION_TYPE_FOLLOW,
             )
+        elif self.relations_by_from_user.filter(
+                to_user=another_user,
+                relation_type=Relation.RELATION_TYPE_BLOCK
+        ).exists():
+            re = self.relations_by_from_user.get(to_user=another_user)
+            re.relation_type = Relation.RELATION_TYPE_FOLLOW
+            re.save()
+            return re
+
         else:
             raise DuplicateRelationException(
                 from_user=self,
@@ -53,7 +60,7 @@ class User(AbstractUser):
             raise FollowRelationNotExist(
                 from_user=self,
                 to_user=another_user,
-                relation_type='Follow'
+                relation_type=Relation.RELATION_TYPE_FOLLOW
             )
 
 

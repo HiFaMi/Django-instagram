@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from members.forms import SignupForm
+from posts.models import Post
 from posts.views import index
 
 # User 클래스 자체를 가져올때는 get_user_model()
@@ -119,5 +120,16 @@ def signup_view_back(request):
         return render(request, 'members/signup.html', context)
     return render(request, 'members/signup.html')
 
-def follow_toggle(request):
-    pass
+
+def follow_toggle(request, pk):
+    if request.method == 'POST':
+        post = Post.objects.get(id=pk)
+        using_user = request.user
+
+        if post.author in using_user.following:
+            using_user.unfollow(post.author)
+            return redirect('posts:post-list')
+
+        else:
+            using_user.follow(post.author)
+            return redirect('posts:post-list')
