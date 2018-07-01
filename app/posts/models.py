@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from members.models import User, PostLike
+from members.models import User
 
 
 class Post(models.Model):

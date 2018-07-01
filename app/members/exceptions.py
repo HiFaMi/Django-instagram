@@ -32,3 +32,9 @@ class DuplicateRelationException(Exception):
         self.to_user = to_user
         self.relation_type = relation_type
 
+
+class DoesNotExist(Exception):
+    def __init__(self, from_user, to_user, relation_type):
+        self.from_user = from_user
+        self.to_user = to_user
+        self.relation_type = relation_type

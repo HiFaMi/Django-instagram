@@ -1,5 +1,6 @@
 from django.urls import path
 
+
 from .views import post_list, post_detail, post_create, post_delete, post_user_detail, withdraw, \
     post_comment
 

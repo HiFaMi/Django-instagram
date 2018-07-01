@@ -128,4 +128,3 @@ def post_comment(request, pk):
         return redirect('posts:post-list')
 
 
-

@@ -1,90 +1,92 @@
 {% extends 'posts/basic.html' %}
 {% block content %}
     <h1>post list</h1>
-{% for post in posts %}
-<div class="card bg-light mb-4 mx-auto" style="max-width: 80%">
+    {% for post in posts %}
+        {% if post.author not in user.block_user %}
+            <div class="card bg-light mb-4 mx-auto" style="max-width: 80%">
 
-    <div class="card-header">
-        <div class="float-left">
+                <div class="card-header">
+                    <div class="float-left">
 
-                {% if post.author.img_profile %}
-            <img class="rounded-circle mr-1"
-                 width="30px"
-                 src="{{post.author.img_profile.url}}">
-                {% else %}
-                {% load static %}
-            <img class="rounded-circle mr-1"
-                 width="30px"
-                 src="{% static '/images/blank_user.png' %}">
-                {% endif %}
-            <span>{{ post.author.username }}</span>
-            {% if user != post.author %}
-                {% if post.author not in user.following%}
-                <form action="{% url 'members:follow' post.id %}" method="POST" style="display: inline-block">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-primary btn-sm">+ Follow</button>
-                </form>
-                {% else %}
-                <form action="{% url 'members:follow' post.id %}" method="POST" style="display: inline-block">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-primary btn-sm">- UnFollow</button>
-                </form>
-                {% endif %}
-            {% endif %}
-        </div>
-        <div>
-            <form action="{% url 'members:post-like' post.id %}" method="POST">
-                <button class="btn btn-outline" type="submit">Like</button>
-            </form>
-        </div>
-        <div class="float-right">
-            <form action="{% url 'members:post-delete' post.id%}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm">지우기</button>
-            </form>
-        </div>
+                        {% if post.author.img_profile %}
+                            <img class="rounded-circle mr-1"
+                                 width="30px"
+                                 src="{{post.author.img_profile.url}}">
+                        {% else %}
+                            {% load static %}
+                            <img class="rounded-circle mr-1"
+                                 width="30px"
+                                 src="{% static '/images/blank_user.png' %}">
+                        {% endif %}
+                        <span>{{ post.author.username }}</span>
+                        {% if user != post.author %}
+                            {% if post.author not in user.following%}
+                                <form action="{% url 'members:follow' post.id %}" method="POST" style="display: inline-block">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">+ Follow</button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'members:follow' post.id %}" method="POST" style="display: inline-block">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">- UnFollow</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    {#        <div>#}
+                    {#            <form action="{% url 'members:post-like' post.id %}" method="POST">#}
+                    {#                <button class="btn btn-outline" type="submit">Like</button>#}
+                    {#            </form>#}
+                    {#        </div>#}
+                    <div class="float-right">
+                        <form action="{% url 'posts:post-delete' post.id%}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">지우기</button>
+                        </form>
+                    </div>
 
-    </div>
-    <div class="card-body">
-            <!--
-            1.static폴더 만들기
-            2.settings.py에 STATIC_DIR변수에 해당 경로 추가
-            3.STATICFILES_DIRS에 위 변수 추가
-            4.아래에서 사진이 존재하지 않을 경우
-                /static/images/blank_user.png <- src로 사용
-                이 때, 'static'태그 사용
-            -->
-        {% if post.photo %}
-        <img width="100%" src="{{post.photo.url}}">
+                </div>
+                <div class="card-body">
+                    <!--
+                    1.static폴더 만들기
+                    2.settings.py에 STATIC_DIR변수에 해당 경로 추가
+                    3.STATICFILES_DIRS에 위 변수 추가
+                    4.아래에서 사진이 존재하지 않을 경우
+                        /static/images/blank_user.png <- src로 사용
+                        이 때, 'static'태그 사용
+                    -->
+                    {% if post.photo %}
+                        <img width="100%" src="{{post.photo.url}}">
+                    {% endif %}
+                    <p class="card-text">{{post.content}}</p>
+                    <div>
+
+                        {% for comment in comments %}
+                            {% if post.id == comment.post.id %}
+                                <p>{{ comment.user.username }} -- {{ comment.user_comment }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div>
+
+                        <form action="{% url 'posts:post-comment' post.pk %}" method="POST">
+                            {% csrf_token %}
+                            {% for field in form %}
+
+                                <label style="display: block;" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                <button style="width: 20%;, float: left;"class="btn btn-outline-dark btn-sm float-right" type="submit">댓글달기</button>
+
+
+                            {% endfor %}
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
         {% endif %}
-        <p class="card-text">{{post.content}}</p>
-        <div>
-
-            {% for comment in comments %}
-                {% if post.id == comment.post.id %}
-                <p>{{ comment.user.username }} -- {{ comment.user_comment }}</p>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div>
-
-            <form action="{% url 'posts:post-comment' post.pk %}" method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-
-                    <label style="display: block;" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    <button style="width: 20%;, float: left;"class="btn btn-outline-dark btn-sm float-right" type="submit">댓글달기</button>
-
-
-                {% endfor %}
-
-            </form>
-        </div>
-
-    </div>
-
-</div>
-{% endfor %}
+    {% endfor %}
 
 {% endblock %}
