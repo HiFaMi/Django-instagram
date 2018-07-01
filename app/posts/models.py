@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from members.models import User
+from members.models import User, PostLike
 
 
 class Post(models.Model):
@@ -29,6 +29,9 @@ class Comment(models.Model):
         max_length=200,
         verbose_name='댓글')
     create_at = models.DateTimeField(auto_now_add=True)
+
+
+
 
 
 

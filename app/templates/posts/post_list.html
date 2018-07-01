@@ -32,8 +32,13 @@
                 {% endif %}
             {% endif %}
         </div>
+        <div>
+            <form action="{% url 'members:post-like' post.id %}" method="POST">
+                <button class="btn btn-outline" type="submit">Like</button>
+            </form>
+        </div>
         <div class="float-right">
-            <form action="{% url 'posts:post-delete' post.id%}" method="POST">
+            <form action="{% url 'members:post-delete' post.id%}" method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger btn-sm">지우기</button>
             </form>

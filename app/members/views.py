@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from members.forms import SignupForm
+from members.models import PostLike
 from posts.models import Post
 from posts.views import index
 
@@ -133,3 +134,28 @@ def follow_toggle(request, pk):
         else:
             using_user.follow(post.author)
             return redirect('posts:post-list')
+
+
+def post_like(request, pk):
+    if request.method == 'POST':
+
+        if not Post.objects.filter(
+                post=Post.objects.get(id=pk),
+                user=request.user).exists():
+            posts_like = PostLike.objects.create(
+                post=Post.objects.get(id=pk),
+                user=request.user,
+                post_like=PostLike.CHOICES_POST_UNLIKE
+            )
+            posts_like.save()
+
+        else:
+            post = PostLike.objects.get(
+                post=Post.objects.get(id=pk),
+                user=request.user,
+            )
+
+            post.post_like = PostLike.CHOICES_POST_UNLIKE
+            post.save()
+
+        return redirect('posts:post-list')
