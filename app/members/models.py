@@ -133,53 +133,6 @@ class User(AbstractUser):
     def block_relation(self):
         return self.relations_by_from_user.filter(relation_type=Relation.RELATION_TYPE_BLOCK)
 
-    # def likes(self, post):
-    #     if not self.likes_by_from_user.filter(
-    #             post=post,
-    #     ).exists():
-    #         return self.likes_by_from_user.create(
-    #             post=post,
-    #             user=self,
-    #             post_like=PostLike.CHOICES_POST_LIKE,
-    #         )
-    #     elif self.likes_by_from_user.filter(
-    #             post=post,
-    #             post_like=PostLike.CHOICES_POST_UNLIKE,
-    #     ).exists():
-    #         re = self.likes_by_from_user.get(post=post)
-    #         re.post_like = PostLike.CHOICES_POST_LIKE
-    #         re.save()
-    #         return re
-    #
-    #     else:
-    #         raise DuplicateRelationExceptionPost(
-    #             post=post,
-    #             user=self,
-    #             likes_type=PostLike.CHOICES_POST_LIKE,
-    #         )
-    #
-    # def unlikes(self, post):
-    #     q = self.likes_by_from_user.filter(
-    #         post=post,
-    #         post_like=PostLike.CHOICES_POST_LIKE,
-    #     )
-    #     if q:
-    #         q.delete()
-    #
-    #     else:
-    #         raise FollowRelationNotExistPost(
-    #             post=post,
-    #             user=self,
-    #             likes_type=PostLike.CHOICES_POST_LIKE,
-    #         )
-    #
-    # @property
-    # def like_post(self):
-    #     return User.objects.filter(
-    #         likes_by_from_user__user=self,
-    #         likes_by_from_user__post_like=PostLike.CHOICES_POST_LIKE,
-    #     )
-
 
 class Relation(models.Model):
     RELATION_TYPE_BLOCK = 'b'
@@ -217,27 +170,3 @@ class Relation(models.Model):
         )
 
 
-# class PostLike(models.Model):
-#     CHOICES_POST_LIKE = 'L'
-#     CHOICES_POST_UNLIKE = 'U'
-#
-#     CHOICES_LIKE = (
-#         (CHOICES_POST_LIKE, 'Like'),
-#         (CHOICES_POST_UNLIKE, 'Unlike')
-#     )
-#     post = models.ForeignKey(
-#         Post,
-#         on_delete=models.CASCADE,
-#         related_name='likes_by_from_post',
-#
-#     )
-#
-#     user = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='likes_by_from_user',
-#     )
-#
-#     post_like = models.CharField(max_length=1, choices=CHOICES_LIKE)
-#
-#     created_at = models.DateTimeField(auto_now_add=True)
