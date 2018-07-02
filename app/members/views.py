@@ -168,6 +168,18 @@ def following_view(request):
 def following_block(request, pk):
     if request.method == 'POST':
         user = User.objects.get(username=request.user.username)
-        user.block(User.objects.get(id=pk))
+        user.following_block(User.objects.get(id=pk))
 
     return redirect('members:following')
+
+
+def follower_view(request):
+    return render(request, 'posts/follower_detail.html')
+
+
+def follower_block(request, pk):
+    if request.method == 'POST':
+        user = User.objects.get(username=request.user.username)
+        user.follower_block(User.objects.get(id=pk))
+
+    return redirect('members:follower')

@@ -1,11 +1,12 @@
 {% extends 'posts/basic.html' %}
 {% block content %}
-    {% for follower in user.follower %}
+
+    {% for follower in user.followers %}
         <table class="table table-bordeless mx-auto" style="width: 70%">
             <tr>
                 <td style="text-align: center">{{ follower.username }}</td>
                 <td style="text-align: right">
-                    <form action="">
+                    <form action="{% url 'members:follower-block' follower.id %}" method="POST">
                         {% csrf_token %}
                         <button class="btn btn-outline-danger btn-sm" type="submit">Block</button>
                     </form>

@@ -52,22 +52,6 @@ class User(AbstractUser):
                 relation_type=Relation.RELATION_TYPE_FOLLOW,
             )
 
-    def block(self, another_user):
-        if self.relations_by_from_user.filter(
-            to_user=another_user,
-            relation_type=Relation.RELATION_TYPE_FOLLOW,
-        ).exists():
-            re = self.relations_by_from_user.get(to_user=another_user)
-            re.relation_type = Relation.RELATION_TYPE_BLOCK
-            re.save()
-
-        else:
-            raise DoesNotExist(
-                from_user=self,
-                to_user=another_user,
-                relation_type=Relation.RELATION_TYPE_FOLLOW
-            )
-
     def unfollow(self, another_user):
         q = self.relations_by_from_user.filter(
             to_user=another_user,
@@ -81,6 +65,39 @@ class User(AbstractUser):
                 to_user=another_user,
                 relation_type=Relation.RELATION_TYPE_FOLLOW
             )
+
+    def following_block(self, another_user):
+        if self.relations_by_from_user.filter(
+                to_user=another_user,
+                relation_type=Relation.RELATION_TYPE_FOLLOW,
+        ).exists():
+            re = self.relations_by_from_user.get(to_user=another_user)
+            re.relation_type = Relation.RELATION_TYPE_BLOCK
+            re.save()
+
+        else:
+            raise DoesNotExist(
+                from_user=self,
+                to_user=another_user,
+                relation_type=Relation.RELATION_TYPE_FOLLOW
+            )
+
+    def follower_block(self, another_user):
+        if self.relations_by_to_user.filter(
+                from_user=another_user,
+                relation_type=Relation.RELATION_TYPE_FOLLOW,
+        ).exists():
+            re = self.relations_by_to_user.get(from_user=another_user)
+            re.relation_type = Relation.RELATION_TYPE_BLOCK
+            re.save()
+
+        else:
+            raise DoesNotExist(
+                from_user=self,
+                to_user=another_user,
+                relation_type=Relation.RELATION_TYPE_FOLLOW
+            )
+
 
     @property
     def following(self):

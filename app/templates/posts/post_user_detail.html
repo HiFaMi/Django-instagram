@@ -4,8 +4,8 @@
     <div>
         <table class="table table-bordered mx-auto" style="width: 80%">
             <tr style="text-align: center">
-                <th scope="col"><a href="{% url 'members:following' %}">Following</a></th>
-                <th scope="col">Follower</th>
+                <th scope="col"><a class="text-dark" href="{% url 'members:following' %}">Following</a></th>
+                <th scope="col"><a class="text-dark" href="{% url 'members:follower' %}">Follower</a></th>
             </tr>
             <tr style="text-align: center">
                 <td>{{ user.following | length }}</td>
