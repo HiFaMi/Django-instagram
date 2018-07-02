@@ -7,6 +7,7 @@ from .post_detail import *
 from .post_like import *
 from .post_list import *
 
+
 def index(request):
     # return HttpResponseRedirect('/posts/')
     return redirect('posts:post-list')

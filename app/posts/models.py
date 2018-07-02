@@ -35,8 +35,24 @@ class Comment(models.Model):
         verbose_name='댓글')
     create_at = models.DateTimeField(auto_now_add=True)
 
-
-
+# class AnotherComment(models.Model):
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     parent_comment = models.ForeignKey(
+#         'self',
+#         on_delete=models.SET_NULL,
+#         null=True,
+#         blank=True,
+#     )
+#     author = models.ForeignKey(
+#         settings.AUTH_USER_MODEL,
+#         on_delete=models.CASCADE,
+#     )
+#     content = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     modeified_at = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return 'Comment (post: {}, author: {})'.format(self.post.pk, self.author.username)
 
 
 

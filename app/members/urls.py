@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import login_view, logout_view, signup_view, follow_toggle, following_view, following_block, follower_view, \
-    follower_block
+    follower_block, facebook_view
 
 app_name = 'members'
 urlpatterns =[
@@ -12,5 +12,6 @@ urlpatterns =[
     path('following_detail', following_view, name='following'),
     path('<int:pk>/following_detail/block', following_block, name='following-block'),
     path('follower_detail', follower_view, name='follower'),
-    path('<int:pk>/follower_detail/block', follower_block, name='follower-block')
+    path('<int:pk>/follower_detail/block', follower_block, name='follower-block'),
+    path('facebook-login/', facebook_view, name='facebook-login'),
 ]

@@ -8,6 +8,11 @@
         <input type="password" class="form-control" name="password" placeholder="Password">
         <button type="submit" class="btn btn-primary btn-sm">로그인</button>
     </form>
+
+    <a href="https://www.facebook.com/v3.0/dialog/oauth?
+            client_id=2137675516475937
+            &redirect_uri=http://localhost:8000/members/facebook-login/
+            &scope=email,public_profile" class="btn btn-primary">Facebook 로그인</a>
 </div>
 
 {% endblock %}
