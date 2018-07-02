@@ -187,6 +187,7 @@ def follower_block(request, pk):
     return redirect('members:follower')
 
 
+# access_token을 받아오기 위함
 def facebook_view(request):
     code = request.GET.get('code')
     url = 'https://graph.facebook.com/v3.0/oauth/access_token?'
@@ -199,11 +200,13 @@ def facebook_view(request):
 
     response = requests.get(url, params)
     # 파이썬에 내장된 json모듈을 사용해서, JSON형식의 텍스트를 파이썬 Object로 변환
-
     response_dict = response.json()
     return response_dict
 
 
+# access_token을 검사하기 위함
+# input_token의 경우 검사하기위한 access_token
+# access_token의 경우 개발자의 token id 및 secret code
 def facebook_take_token(request):
     url = 'https://graph.facebook.com/debug_token?'
 
@@ -218,6 +221,8 @@ def facebook_take_token(request):
     return response
 
 
+# facebook의 GraphAPI를 이용
+# Facebook User에 접근하여 정보를 가져온다
 def facebook_graph(request):
     # GraphAPI를 통해서 Facebook User 정보 받아오기
     url = 'https://graph.facebook.com/v3.0/me'
@@ -236,6 +241,9 @@ def facebook_graph(request):
     return response_dict
 
 
+# 위에서 Facebook User에 접근한 정보를 이용하여 User 인스턴스 생성
+# get_or_create의 경우 get으로 불러오는 값이 있을경우 user_create의 경우 False값이 나오고 user에 해당 값 할당
+# 아닐경우 user_create의 값에 True가 할당되고 User 인스턴스를 만든 후 user 변수에 할당
 def facebook_to_user(request):
     response_dict = facebook_graph()
     facebook_user_id = response_dict['id']
