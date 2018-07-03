@@ -170,3 +170,9 @@ class Relation(models.Model):
         )
 
 
+class FacebookManager(models.Manager):
+    use_for_related_field = True
+
+    def create_facebook_user(self):
+        return self.filter()
+
