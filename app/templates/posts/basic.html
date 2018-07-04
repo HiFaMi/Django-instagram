@@ -11,51 +11,59 @@
 <body>
 
 <div class="container">
-    <h1><a class="black" href="{% url 'index' %}">Instagram</a></h1>
+
     <div>
+        <h1>
+            <a class="text-dark" href="{% url 'index' %}">Instagram</a>
+        </h1>
+    </div>
+    <div class="nav">
 
 
         {% if user.is_authenticated %}
 
-        <div>
-            {% if user.img_profile %}
-            <img class="rounded-circle mr-1"
-                 width="30px"
-                 src="{{user.img_profile.url}}">
-            {% else %}
-            {% load static %}
-            <img class="rounded-circle mr-1"
-                 width="30px"
-                 src="{% static '/images/blank_user.png' %}">
-            {% endif %}
-            <a href="{% url 'posts:post-user-detail' %}">{{user}}로 로그인중</a></div>
-        <div>
-            <form action="{% url 'members:logout' %}" method="POST">
-                {% csrf_token %}
-                <button class="btn btn-primary btn-sm" type="submit">로그아웃하기</button>
-            </form>
+            <div>
+                {% if user.img_profile %}
+                    <img class="rounded-circle mr-1"
+                         width="30px"
+                         src="{{user.img_profile.url}}">
+                {% else %}
+                    {% load static %}
+                    <img class="rounded-circle mr-1"
+                         width="30px"
+                         src="{% static '/images/blank_user.png' %}">
+                {% endif %}
+                <a href="{% url 'posts:post-user-detail' %}">{{user}}로 로그인중</a>
+            </div>
+            <div>
+                <form action="{% url 'members:logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-sm" type="submit">로그아웃하기</button>
+                </form>
+            </div>
 
-            <form action="{% url 'posts:withdraw' %}" method="POST">
-                {% csrf_token %}
-                <button class="btn btn-primary btn-sm" type="submit">회원탈퇴</button>
-            </form>
-
-
-            <form action="{% url 'posts:post-user-detail'%}">
-                <button class="btn btn-primary btn-sm">내 사진보기</button>
-            </form>
-        </div>
+            <div>
+                <form action="{% url 'posts:withdraw' %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-sm" type="submit">회원탈퇴</button>
+                </form>
+            </div>
+            <div>
+                <form action="{% url 'posts:post-user-detail'%}">
+                    <button class="btn btn-primary btn-sm">내 사진보기</button>
+                </form>
+            </div>
         {% else %}
-        <div>
-            <form action="{% url 'members:signup' %}">
-                <button class="btn btn-primary btn-sm">회원가입</button>
-            </form>
-        </div>
-        <div>
-            <form action="{% url 'members:login' %}">
-                <button class="btn btn-primary btn-sm">로그인</button>
-            </form>
-        </div>
+            <div>
+                <form action="{% url 'members:signup' %}">
+                    <button class="btn btn-primary btn-sm">회원가입</button>
+                </form>
+            </div>
+            <div>
+                <form action="{% url 'members:login' %}">
+                    <button class="btn btn-primary btn-sm">로그인</button>
+                </form>
+            </div>
         {% endif %}
         <div>
             <form action="{% url 'posts:post-create' %}">
